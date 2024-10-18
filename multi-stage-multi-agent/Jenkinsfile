@@ -1,5 +1,5 @@
 pipeline {
-    agent none  // This means no global agent
+    agent none 
 
     stages {
         stage('Build Maven') {
