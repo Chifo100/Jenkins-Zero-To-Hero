@@ -1,21 +1,23 @@
 pipeline {
-  agent docker
-  stages {
-    stage('Back-end') {
-      agent {
-        docker { image 'maven:3.8.1-adoptopenjdk-11' }
-      }
-      steps {
-        sh 'mvn --version'
-      }
+    agent none  // This means no global agent
+
+    stages {
+        stage('Build Maven') {
+            agent {
+                docker { image 'maven:3.8.1-adoptopenjdk-11' }
+            }
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Build Node') {
+            agent {
+                docker { image 'node:16-alpine' }
+            }
+            steps {
+                sh 'npm install'
+            }
+        }
     }
-    stage('Front-end') {
-      agent {
-        docker { image 'node:16-alpine' }
-      }
-      steps {
-        sh 'node --version'
-      }
-    }
-  }
 }
